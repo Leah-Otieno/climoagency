@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPESA Payment Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .mpesa-form {
+            max-width: 500px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .mpesa-form h2 {
+            color: #4CAF50;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(50, 205, 50, 0.25);
+            border-color: #32cd32;
+        }
+
+        .mpesa-form button {
+            background-color: #32cd32;
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mpesa-form button:hover {
+            background-color: #228b22;
+            cursor: pointer;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-text {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+
+        /* Logo image styling */
+        .logo img {
+            max-width: 150px; /* Adjust the size of the logo */
+            height: auto;
+            object-fit: contain;
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .sitename {
+            font-size: 2rem;
+            color: #4CAF50;
+            font-weight: 700;
+        }
+
+        .sitename span {
+            font-weight: normal;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo and Site Name -->
+    <div class="container-fluid">
+        <div class="logo">
+            <img src="{% static 'assets/img/climo.png' %}" alt="Logo">
+        </div>
+        <h1 class="sitename">CLIMO Estate<span>Agency</span></h1>
+    </div>
+
+    <!-- MPESA Payment Form -->
+    <div class="mpesa-form">
+        <h2 class="text-center">MPESA Payment</h2>
+
+
+        <form method="post" action="{% url 'stk' %}">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="07XXXXXXXX or 01XXXXXXXX" pattern="(07|01)\d{8}" required>
+
+                <small id="phoneHelp" class="form-text text-muted">Enter a valid phone number starting with 07.</small>
+            </div>
+
+            <!-- Amount -->
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount to pay" required min="1">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-lg">Pay Now</button>
+            </div>
+        </form>
+
+        {% if messages %}
+            <div class="alert alert-danger mt-3" role="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
